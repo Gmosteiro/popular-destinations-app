@@ -83,6 +83,8 @@
         </div>
 
         <button @click="$router.push('/')">Volver</button>
+        <button @click="showInterest = true">Me interesa</button>
+        <ContactForm v-if="showInterest" @close="showInterest = false" />
     </div>
     <div v-else>
         <p>No se encontró información del destino.</p>
@@ -94,16 +96,19 @@
 import 'vue3-carousel/dist/carousel.css';
 import { fetchDestinationDetails } from '@/services/api';
 import { Carousel, Slide } from 'vue3-carousel';
+import ContactForm from '@/components/ContactForm.vue';
 
 export default {
     components: {
         Carousel,
-        Slide
+        Slide,
+        ContactForm
     },
     props: ['id'],
     data() {
         return {
-            destination: null
+            destination: null,
+            showInterest: false
         };
     },
     created() {
