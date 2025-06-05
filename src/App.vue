@@ -1,15 +1,10 @@
 <template>
-  <SearchHome />
+  <router-view />
 </template>
 
 <script>
-import SearchHome from './views/SearchHome.vue';
-
 export default {
-  name: 'App',
-  components: {
-    SearchHome
-  }
+  name: 'App'
 }
 </script>
 

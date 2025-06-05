@@ -9,7 +9,7 @@
         <span v-else-if="hotel_price" class="tag hotel">🏨 {{ hotel_price }}</span>
         <span v-if="drive_duration" class="tag drive">🚗 {{ drive_duration }}</span>
       </div>
-      <a :href="link" target="_blank" class="view-more">Ver más</a>
+      <a :href="link" target="_blank" class="view-more" @click.prevent="$emit('click')">Ver más</a>
     </div>
   </div>
 </template>
@@ -49,6 +49,10 @@ export default {
   margin: 0 auto;
 }
 
+.destination-card:hover .destination-image {
+  transform: scale(1.02);
+}
+
 .destination-card.hovered,
 .destination-card:hover {
   box-shadow: 0 6px 24px rgba(34, 34, 59, 0.18);
@@ -56,8 +60,9 @@ export default {
 }
 
 .destination-image {
+  aspect-ratio: 16 / 9;
   width: 100%;
-  height: 200px;
+  height: 220px;
   object-fit: cover;
   background: #f0f0f0;
   transition: filter 0.2s;
