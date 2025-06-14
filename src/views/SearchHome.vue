@@ -1,7 +1,7 @@
 <template>
     <div class="search-home">
         <h1>Destinos Populares</h1>
-        <CountrySelector v-model:country="selectedCountry" />
+        <CountrySelector v-model:country="selectedCountry" v-model:city="selectedCity" />
 
         <div v-if="loading" class="centered">
             <LoadingSpinner />
@@ -42,26 +42,46 @@ export default {
             loading: false,
             error: null,
             searchTerm: '',
-            selectedCountry: 'Uruguay'
+            selectedCountry: 'Uruguay',
+            selectedCity: '' // <-- Agregado
         };
     },
     computed: {
         filteredDestinations() {
-            return this.destinations;
+            if (this.destinations && this.destinations.length) {
+                return this.destinations;
+            }
+            const sights = JSON.parse(localStorage.getItem('allSights') || '[]');
+            if (sights.length) {
+                return sights;
+            }
+            const shopping = JSON.parse(localStorage.getItem('allShopping') || '[]');
+            return shopping;
         }
     },
     watch: {
-        selectedCountry: 'getDestinations'
+        selectedCountry: 'getDestinations',
+        selectedCity: 'getDestinations' // <-- Agregado
     },
     methods: {
         async getDestinations() {
             this.loading = true;
             this.error = null;
             try {
-                const response = await fetchDestinations({ country: this.selectedCountry });
-                this.destinations = response.destinations;
+                const response = await fetchDestinations({
+                    country: this.selectedCountry,
+                    city: this.selectedCity
+                });
+                this.destinations = response.destinations || [];
+                if (response.sights) {
+                    localStorage.setItem('allSights', JSON.stringify(response.sights));
+                }
+                if (response.shopping) {
+                    localStorage.setItem('allShopping', JSON.stringify(response.shopping));
+                }
                 localStorage.setItem('allDestinations', JSON.stringify(this.destinations));
             } catch (err) {
+                console.error('Error al cargar los destinos:', err);
                 this.error = 'Error cargando los destinos.';
             } finally {
                 this.loading = false;
@@ -72,7 +92,10 @@ export default {
             this.$router.push({
                 name: 'DestinationDetail',
                 params: { id: dest.title },
-                query: { country: this.selectedCountry }
+                query: {
+                    country: this.selectedCountry,
+                    city: this.selectedCity // <-- Agregado
+                }
             });
         }
     },

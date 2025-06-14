@@ -2,14 +2,41 @@ import axios from 'axios';
 import { API_URL, API_KEY } from '@/lib/contants';
 
 export const fetchDestinations = async (params) => {
+
+    const sanitizeCity = params.city ? params.city.replace(' ', '+').trim() : '';
+    const sanitizeCountry = params.country ? params.country.replace(' ', '+').trim() : '';
+
+    const query = params.city
+        ? `${sanitizeCountry}+${sanitizeCity}+Destinations`
+        : `${sanitizeCountry}+Destinations`;
+
     const apiResponse = await axios.get(`${API_URL}?api_key=${API_KEY}`, {
         params: {
-            q: `${params.country}+Destinations`
+            q: query.trim()
         }
     });
 
+    const destinations = apiResponse.data?.popular_destinations?.destinations || [];
+    const sights = apiResponse.data?.top_sights?.sights || [];
+    let shopping = [];
+
+    if (!destinations.length && !sights.length && apiResponse.data?.shopping_results?.length) {
+        shopping = apiResponse.data.shopping_results.map(item => ({
+            title: item.title,
+            price: item.price,
+            rating: item.rating,
+            reviews: item.reviews,
+            thumbnail: item.thumbnail,
+            link: item.link,
+            source: item.source,
+            description: item.source // o puedes dejarlo vacío o usar otra propiedad
+        }));
+    }
+
     return {
-        destinations: apiResponse.data.popular_destinations.destinations || []
+        destinations,
+        sights,
+        shopping
     }
 }
 

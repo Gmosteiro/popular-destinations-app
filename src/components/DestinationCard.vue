@@ -9,7 +9,7 @@
         <span v-else-if="hotel_price" class="tag hotel">🏨 {{ hotel_price }}</span>
         <span v-if="drive_duration" class="tag drive">🚗 {{ drive_duration }}</span>
       </div>
-      <a :href="link" target="_blank" class="view-more" @click.prevent="$emit('click')">Ver más</a>
+      <a v-if="isDestination" :href="link" target="_blank" class="view-more" @click.prevent="$emit('click')">Ver más</a>
     </div>
   </div>
 </template>
@@ -24,7 +24,11 @@ export default {
     hotel_price: String,
     drive_duration: String,
     thumbnail: String,
-    link: String
+    link: String,
+    isDestination: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {

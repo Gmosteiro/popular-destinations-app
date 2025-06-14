@@ -133,7 +133,6 @@ export default {
                     country,
                     destination: this.id
                 });
-                console.log('Detalles del destino:', destination);
                 this.destination = destination;
             } catch (error) {
                 this.destination = null;
