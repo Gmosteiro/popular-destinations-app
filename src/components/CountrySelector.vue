@@ -1,16 +1,21 @@
 <template>
   <div class="country-selector">
-    <label for="country">País de destino:</label>
-    <select id="country" v-model="selectedCountry" @change="onCountryChange">
-      <option disabled value="">Selecciona un país</option>
-      <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
-    </select>
-
-    <label v-if="cities.length" for="city" style="margin-top:1rem;">Ciudad:</label>
-    <select v-if="cities.length" id="city" v-model="selectedCity" @change="onCityChange">
-      <option disabled value="">Selecciona una ciudad</option>
-      <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
-    </select>
+    <div class="selector-row">
+      <div class="selector-group">
+        <label for="country">País de destino:</label>
+        <select id="country" v-model="selectedCountry" @change="onCountryChange">
+          <option disabled value="">Selecciona un país</option>
+          <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+        </select>
+      </div>
+      <div class="selector-group" v-if="cities.length">
+        <label for="city">Ciudad:</label>
+        <select id="city" v-model="selectedCity" @change="onCityChange">
+          <option disabled value="">Selecciona una ciudad</option>
+          <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
+        </select>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -56,15 +61,28 @@ export default {
 
 <style scoped>
 .country-selector {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.selector-row {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.selector-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 1.5rem;
+  min-width: 180px;
 }
 
 label {
   font-size: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   color: #333;
   font-weight: 500;
 }
