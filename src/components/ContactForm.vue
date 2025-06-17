@@ -38,7 +38,6 @@ export default {
     },
     methods: {
         submit() {
-            // Aquí puedes emitir los datos o hacer la lógica que necesites
             alert('¡Gracias por tu interés! Te contactaremos pronto.');
             this.$emit('close');
             this.form = { name: '', email: '', message: '' };

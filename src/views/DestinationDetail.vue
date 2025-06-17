@@ -3,10 +3,10 @@
         <h2>{{ destination.baseData.title }}</h2>
         <p style="text-align:center; margin-bottom:1.5rem;">{{ destination.baseData.description || 'Sin descripción.' }}
         </p>
-        <img :src="destination.baseData.thumbnail || ''" alt="Imagen del destino" class="detail-img"
-            style="max-width: 100%; height: auto; display: block; margin-bottom: 1.5rem; border-radius: 18px; box-shadow: 0 4px 24px 0 rgba(0,0,0,0.09);">
 
-        <!-- Nueva sección: Información general -->
+        <!-- <img :src="destination.baseData.thumbnail || ''" alt="Imagen del destino" class="detail-img"
+            style="max-width: 100%; height: auto; display: block; margin-bottom: 1.5rem; border-radius: 18px; box-shadow: 0 4px 24px 0 rgba(0,0,0,0.09);"> -->
+
         <div v-if="destination.knowledge_graph" class="info-extra">
             <h3>Información general</h3>
             <p v-if="destination.knowledge_graph.type">
@@ -50,22 +50,17 @@
             </div>
         </div>
 
-        <!-- Nueva sección: Preguntas frecuentes -->
         <div v-if="destination.related_questions && destination.related_questions.length" class="faq-section">
             <h3>Preguntas frecuentes sobre el destino</h3>
             <div v-for="q in destination.related_questions" :key="q.question" class="faq-item">
                 <p><strong>{{ q.question }}</strong></p>
                 <p v-if="q.snippet">{{ q.snippet }}</p>
-                <ul v-if="q.list && q.list.length">
-                    <li v-for="item in q.list" :key="item">{{ item }}</li>
-                </ul>
                 <p v-if="q.title">
                     <a :href="q.link" target="_blank">{{ q.title }}</a>
                 </p>
             </div>
         </div>
 
-        <!-- Hoteles recomendados -->
         <div v-if="destination.hotels && destination.hotels.length" class="carousel-hoteles">
             <h3 style="text-align:center; margin-bottom:1.2rem; color:#22223b;">Hoteles recomendados</h3>
             <Carousel :items-to-show="2" :wrap-around="true" :mouse-drag="true" :snap-align="'center'" :transition="500"
@@ -81,9 +76,10 @@
                 </Slide>
             </Carousel>
         </div>
-
-        <button @click="$router.push('/')">Volver</button>
-        <button @click="showInterest = true">Me interesa</button>
+        <div style="display: flex;">
+            <button @click="$router.push('/')">Volver</button>
+            <button @click="showInterest = true">Me interesa</button>
+        </div>
         <ContactForm v-if="showInterest" @close="showInterest = false" />
     </div>
     <div v-else>
@@ -228,7 +224,6 @@ h2 {
 }
 
 .faq-item ul {
-    /* padding-left: 1.2rem; */
     color: #22223b;
 }
 

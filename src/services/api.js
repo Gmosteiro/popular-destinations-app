@@ -29,7 +29,7 @@ export const fetchDestinations = async (params) => {
             thumbnail: item.thumbnail,
             link: item.link,
             source: item.source,
-            description: item.source // o puedes dejarlo vacío o usar otra propiedad
+            description: item.source
         }));
     }
 
