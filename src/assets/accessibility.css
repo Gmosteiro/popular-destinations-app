@@ -1,0 +1,82 @@
+/* Estilos de accesibilidad globales */
+
+/* Clase para ocultar contenido visualmente pero mantenerlo accesible para lectores de pantalla */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Mostrar elementos sr-only cuando tienen foco (útil para skip links) */
+.sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0.5rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    background: #007bff;
+    color: white;
+    border-radius: 4px;
+}
+
+/* Asegurar que todos los elementos interactivos tengan cursor pointer */
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+    cursor: pointer;
+}
+
+/* Estados de foco mejorados para todos los elementos interactivos */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+a:focus,
+[tabindex]:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Reducir movimiento para usuarios que prefieren menos animaciones */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Mejorar el contraste de los placeholders */
+::placeholder {
+    color: #6c757d;
+    opacity: 1;
+}
+
+/* Estados deshabilitados más claros */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Hacer que los elementos focuseables sin rol de botón sean accesibles por teclado */
+[tabindex="0"]:not(button):not(input):not(select):not(textarea):not(a) {
+    border-radius: 4px;
+}

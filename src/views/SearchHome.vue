@@ -4,24 +4,28 @@
             <h1>Destinos Populares</h1>
         </header>
 
-        <CountrySelector v-model:country="selectedCountry" v-model:city="selectedCity" />
+        <main>
+            <CountrySelector v-model:country="selectedCountry" v-model:city="selectedCity" />
 
-        <div v-if="loading" class="centered">
-            <LoadingSpinner />
-        </div>
+            <div v-if="loading" class="centered" role="status" aria-live="polite">
+                <LoadingSpinner />
+                <span class="sr-only">Cargando destinos...</span>
+            </div>
 
-        <div v-else-if="error" class="centered">
-            <ErrorMessage :message="error" />
-        </div>
+            <div v-else-if="error" class="centered" role="alert" aria-live="assertive">
+                <ErrorMessage :message="error" />
+            </div>
 
-        <div v-else-if="filteredDestinations.length" class="destinations-grid">
-            <DestinationCard v-for="dest in filteredDestinations" :key="dest.destination_id || dest.title" v-bind="dest"
-                @click="goToDetail(dest)" />
-        </div>
+            <section v-else-if="filteredDestinations.length" class="destinations-grid" role="region"
+                aria-label="Lista de destinos disponibles">
+                <DestinationCard v-for="dest in filteredDestinations" :key="dest.destination_id || dest.title"
+                    v-bind="dest" @click="goToDetail(dest)" />
+            </section>
 
-        <div v-else-if="selectedCountry && !loading" class="centered">
-            <p>No hay destinos disponibles para {{ selectedCountry }}.</p>
-        </div>
+            <div v-else-if="selectedCountry && !loading" class="centered" role="status" aria-live="polite">
+                <p>No hay destinos disponibles para {{ selectedCountry }}.</p>
+            </div>
+        </main>
 
         <footer class="main-footer">
             <span>© {{ new Date().getFullYear() }} Popular Destinations App · Hecho con ❤️</span>
@@ -181,5 +185,18 @@ export default {
     font-size: 1rem;
     letter-spacing: 0.5px;
     box-shadow: 0 -2px 12px rgba(34, 34, 59, 0.08);
+}
+
+/* Clase para lectores de pantalla */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 </style>

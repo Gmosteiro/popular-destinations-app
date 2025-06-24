@@ -1,15 +1,20 @@
 <template>
-  <div class="destination-card" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hovered: hover }">
-    <img :src="thumbnail" :alt="title" class="destination-image" />
+  <div class="destination-card" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hovered: hover }"
+    role="button" tabindex="0" @click="$emit('click')" @keydown.enter="$emit('click')"
+    @keydown.space.prevent="$emit('click')" :aria-label="`Ver detalles de ${title}`">
+    <img :src="thumbnail" :alt="`Imagen de ${title}, ${description}`" class="destination-image" />
     <div class="destination-info">
       <h2 class="title">{{ title }}</h2>
       <p class="description">{{ description }}</p>
-      <div class="tags">
-        <span v-if="flight_price" class="tag flight">✈️ {{ flight_price }}</span>
-        <span v-else-if="hotel_price" class="tag hotel">🏨 {{ hotel_price }}</span>
-        <span v-if="drive_duration" class="tag drive">🚗 {{ drive_duration }}</span>
+      <div class="tags" role="list" aria-label="Información del destino">
+        <span v-if="flight_price" class="tag flight" role="listitem" aria-label="Precio de vuelo">✈️
+          {{ flight_price }}</span>
+        <span v-else-if="hotel_price" class="tag hotel" role="listitem" aria-label="Precio de hotel">🏨
+          {{ hotel_price }}</span>
+        <span v-if="drive_duration" class="tag drive" role="listitem" aria-label="Duración en auto">🚗
+          {{ drive_duration }}</span>
       </div>
-      <a v-if="isDestination" :href="link" target="_blank" class="view-more" @click.prevent="$emit('click')">Ver más</a>
+      <span v-if="isDestination" class="view-more">Ver más</span>
     </div>
   </div>
 </template>
@@ -136,5 +141,25 @@ export default {
 .view-more:hover {
   color: #0056b3;
   text-decoration: underline;
+}
+
+/* Estados de foco mejorados */
+.destination-card:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  box-shadow: 0 6px 24px rgba(34, 34, 59, 0.18);
+  transform: translateY(-4px) scale(1.03);
+}
+
+.destination-card:focus .destination-image {
+  transform: scale(1.02);
+}
+
+/* Mejorar contraste de texto */
+.description {
+  color: #333;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  min-height: 48px;
 }
 </style>

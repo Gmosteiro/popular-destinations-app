@@ -4,9 +4,6 @@
         <p style="text-align:center; margin-bottom:1.5rem;">{{ destination.baseData.description || 'Sin descripción.' }}
         </p>
 
-        <!-- <img :src="destination.baseData.thumbnail || ''" alt="Imagen del destino" class="detail-img"
-            style="max-width: 100%; height: auto; display: block; margin-bottom: 1.5rem; border-radius: 18px; box-shadow: 0 4px 24px 0 rgba(0,0,0,0.09);"> -->
-
         <div v-if="destination.knowledge_graph" class="info-extra">
             <h3>Información general</h3>
             <p v-if="destination.knowledge_graph.type">
@@ -76,15 +73,24 @@
                 </Slide>
             </Carousel>
         </div>
-        <div style="display: flex;">
-            <button @click="$router.push('/')">Volver</button>
-            <button @click="showInterest = true">Me interesa</button>
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+            <button @click="$router.push('/')" class="action-btn secondary" aria-label="Volver a la página principal">
+                Volver
+            </button>
+            <button @click="showInterest = true" class="action-btn primary"
+                aria-label="Mostrar interés en este destino">
+                Me interesa
+            </button>
         </div>
         <ContactForm v-if="showInterest" @close="showInterest = false" />
     </div>
-    <div v-else>
+    <div v-else role="alert" aria-live="assertive">
         <p>No se encontró información del destino.</p>
-        <button @click="$router.push('/')">Volver</button>
+        <div style="text-align: center; margin-top: 1rem;">
+            <button @click="$router.push('/')" class="action-btn secondary" aria-label="Volver a la página principal">
+                Volver
+            </button>
+        </div>
     </div>
 </template>
 
@@ -306,5 +312,61 @@ button {
 
 button:hover {
     background: #22223b;
+}
+
+/* Estilos para botones de acción */
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+    display: inline-block;
+    margin: 0;
+}
+
+.action-btn:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+.action-btn.primary {
+    background: #007bff;
+    color: white;
+}
+
+.action-btn.primary:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+}
+
+.action-btn.secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.action-btn.secondary:hover {
+    background: #545b62;
+    transform: translateY(-1px);
+}
+
+/* Mejorar enlaces para accesibilidad */
+a {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+a:hover,
+a:focus {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+a:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 1px;
 }
 </style>

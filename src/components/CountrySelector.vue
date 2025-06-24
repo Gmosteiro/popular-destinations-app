@@ -100,6 +100,21 @@ select {
 
 select:focus {
   border-color: #4f8cff;
-  outline: none;
+  outline: 2px solid #4f8cff;
+  outline-offset: 1px;
+}
+
+/* Mejorar contraste del texto de los labels */
+label {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+  color: #222;
+  font-weight: 500;
+}
+
+/* Estados deshabilitados más claros */
+select option:disabled {
+  color: #6c757d;
+  font-style: italic;
 }
 </style>
