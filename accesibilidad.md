@@ -1,4 +1,4 @@
-# Accesibilidad – Resumen de Implementaciones
+# Usabilidad – Resumen de Implementaciones
 
 Este documento resume las reglas de accesibilidad aplicadas en nuestra aplicación, siguiendo las buenas prácticas recomendadas por las WCAG (Web Content Accessibility Guidelines).
 
